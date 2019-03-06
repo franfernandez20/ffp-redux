@@ -6,10 +6,15 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import todoApp from './redux/reducers'
+import { composeWithDevTools } from "redux-devtools-extension";
 
 import * as serviceWorker from './serviceWorker';
 
-const store = createStore(todoApp)
+const store = createStore(
+    todoApp, // Este es root reducers TBD FFP
+    composeWithDevTools()
+    // other store enhancers if any
+  );
 
 render(
   <Provider store={store}>
