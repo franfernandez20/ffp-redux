@@ -1,27 +1,14 @@
+import 'babel-polyfill' // Import evitar errores en llamadas con fecht 
+
 import React from 'react';
 // import './index.css';
 
-import App from './components/App'
 import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-import todoApp from './redux/reducers'
-import { composeWithDevTools } from "redux-devtools-extension";
+import Root from './containers/AsyncExamples/Root'
 
 import * as serviceWorker from './serviceWorker';
 
-const store = createStore(
-    todoApp, // Este es root reducers TBD FFP
-    composeWithDevTools()
-    // other store enhancers if any
-  );
-
-render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
-)
+render(<Root />, document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
