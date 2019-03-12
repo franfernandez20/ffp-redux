@@ -1,4 +1,5 @@
 import 'babel-polyfill' // Import evitar errores en llamadas con fecht 
+import 'typeface-roboto';
 
 import React from 'react';
 // import './index.css';
