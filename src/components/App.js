@@ -7,6 +7,8 @@ import Bar from '../containers/EstylesExampleBar'
 import AppContainer from '../containers/AppContainer'
 import ProductInfo from './ProductInfo';
 import ProductsCards from './ProductsCards';
+import ProductForm from './ProductForm';
+import { Divider } from '@material-ui/core';
 
 
 // const getProducts = () => {
@@ -25,13 +27,20 @@ const App = () => {
   // .then((result) => console.log(result.data));
   },[]);
 
+  const handleAddProduct = (product) => {
+    console.log('EL prodcuto desde fuera del componente', product);
+  }
+
   return (
     <div>
       <Bar>
         {/* <AddTodo />
         <VisibleTodoList />
         <Footer /> */}
-        <ProductInfo id={'5c68513c8001db327e6ee93d'}/>
+        {/* <ProductInfo id={'5c68513c8001db327e6ee93d'}/> */}
+        { products[15] && <ProductForm product={products[15]} onAdd={handleAddProduct}/>}
+        <Divider/>
+        <ProductForm onAdd={handleAddProduct} saveForm/>
         {
           products && <ProductsCards products={products}/>
         }

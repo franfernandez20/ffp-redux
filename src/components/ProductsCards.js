@@ -30,7 +30,7 @@ class ProductsCards extends React.Component {
       <div>
         <p>ProductsCards</p>
         {
-          products.map(element => <ProductCard key={element._id} product={element} handleAdd={this.hanldeAddProduct} handleMoreInfo={this.handleMoreInfoProduct}/>)
+          // products.map(element => <ProductCard key={element._id} product={element} handleAdd={this.hanldeAddProduct} handleMoreInfo={this.handleMoreInfoProduct}/>)
         }
       </div>
     );
