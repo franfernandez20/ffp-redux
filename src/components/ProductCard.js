@@ -78,16 +78,16 @@ const styles = {
 
 function ProductCard(props) {
   const { classes, product } = props;
-  let { handleAdd, handleMoreInfo } = props;
+  let { onAdd, onMoreInfo } = props;
   const [expand, setExpand] = useState(false);
   
-  if (typeof handleAdd !== 'function') {
-    console.warn('ProductCard: handleAdd() is not defined')
-    handleAdd = (id) => { console.log(`Trying to add product: ${id}`)}
+  if (typeof onAdd !== 'function') {
+    console.warn('ProductCard: onAdd() is not defined')
+    onAdd = (id) => { console.log(`Trying to add product: ${id}`)}
   }
-  if (typeof handleMoreInfo !== 'function') {
-    console.warn('ProductCard: handleMoreInfo() is not defined')
-    handleMoreInfo = (id) => { console.log(`Trying to see more info of product: ${id}`)}
+  if (typeof onMoreInfo !== 'function') {
+    console.warn('ProductCard: onMoreInfo() is not defined')
+    onMoreInfo = (id) => { console.log(`Trying to see more info of product: ${id}`)}
   }
 
   const getStockIcon = (n) => {
@@ -111,7 +111,7 @@ function ProductCard(props) {
       <CardHeader
         className={classes.media}
         action={
-          <Fab color="primary" aria-label="Add" className={classes.buttonHeader}  onClick={() => handleAdd(product._id)}>
+          <Fab color="primary" aria-label="Add" className={classes.buttonHeader}  onClick={() => onAdd(product._id)}>
             <AddIcon className={classes.iconHeader}/>
           </Fab>
         }
@@ -148,7 +148,7 @@ function ProductCard(props) {
         </Collapse>
       </CardContent>
       <CardActions className={classes.actions}>
-        <IconButton aria-label="More" onClick={() => handleMoreInfo(product._id)}>
+        <IconButton aria-label="More" onClick={() => onMoreInfo(product)}>
           <MoreHoriz />
         </IconButton>
         <IconButton
@@ -168,8 +168,8 @@ function ProductCard(props) {
 ProductCard.propTypes = {
   classes: PropTypes.object.isRequired,
   product: PropTypes.object.isRequired,
-  handleAdd: PropTypes.func,
-  handleMoreInfo: PropTypes.func
+  onAdd: PropTypes.func,
+  onMoreInfo: PropTypes.func
 };
 
 ProductCard.defaultProps = {

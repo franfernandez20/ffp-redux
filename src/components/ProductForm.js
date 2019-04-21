@@ -15,6 +15,7 @@ import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
 import Icon from '@material-ui/core/Icon';
 import SaveIcon from '@material-ui/icons/Save';
 import { Cancel, AddCircleOutline } from '@material-ui/icons';
+import { Typography } from '@material-ui/core';
 
 
 /*
@@ -25,6 +26,10 @@ const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+  },
+  title: {
+    margin: 'auto',
+    marginBottom: theme.spacing(3)
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -98,16 +103,6 @@ class ProductForm extends React.Component {
     }
   }
 
-  // state = {
-  //   product: this.props.product,
-  // };
-
-  componentDidUpdate(prevProvs) {
-    console.log('prevProvs:', prevProvs);
-    console.log('provs:', this.props);
-
-  }
-
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
@@ -128,15 +123,16 @@ class ProductForm extends React.Component {
 
   handleAdd = () => {
     const product = this.state;
-    const { onAdd } = this.props;
+    const { onAdd, onClose } = this.props;
 
     if( typeof onAdd === 'function') {
       onAdd(product);
+      onClose();
     }
   }
 
   handleSave = () => {
-    const { saveForm } = this.props;
+    const { saveForm, onClose } = this.props;
 
     if(saveForm) {
       fetch(`http://localhost:3001/products/create`, {
@@ -152,9 +148,10 @@ class ProductForm extends React.Component {
         referrer: "no-referrer", // no-referrer, *client
         body: JSON.stringify(this.state), // body data type must match "Content-Type" header
       }).then(res => res.json())
-      .then(response => console.log('Success:', JSON.stringify(response)))
+      .then(response => console.log('Success:', JSON.stringify(response))) //TBD mensaje SUCCESS
       .catch(error => console.error('Error:', error));
     }
+    if (typeof onClose === 'function') onClose();
   }
 
   handleDelete(id) {
@@ -164,6 +161,32 @@ class ProductForm extends React.Component {
     }).then(res => res.json())
     .then(response => console.log('Success:', JSON.stringify(response)))
     .catch(error => console.error('Error:', error));
+    this.props.onClose();
+  }
+
+  handleCancel = () => {
+    const { onCancel } = this.props;
+    if (typeof onCancel === 'function') {
+      onCancel();
+    } 
+  }
+
+  returnTitle() {
+    const { classes,saveForm, product } = this.props;
+    let title = '';
+    if (saveForm) {
+      title = ' Guardar Nuevo Producto '
+    } else if (product && product._id) {
+      title = ' Añadir Producto'
+    } else {
+      title = 'Añadir Nuevo Producto'
+    }
+    
+    return (
+      <Typography className={classes.title} variant="h2">
+        {title}
+      </Typography>
+    );
   }
   
 
@@ -184,6 +207,7 @@ class ProductForm extends React.Component {
 
     return (
       <div className={classes.container}>
+        {this.returnTitle()}
         <TextField
           id="name"
           label="Nombre"
@@ -353,7 +377,7 @@ class ProductForm extends React.Component {
             }
           </Grid>
           <Grid item xs={2}>
-            <Button variant="contained" color="default" className={classes.button}>
+            <Button onClick={this.handleCancel} variant="contained" color="default" className={classes.button}>
               Cancelar
               <Cancel className={classes.rightIcon} />
             </Button>
@@ -368,6 +392,9 @@ class ProductForm extends React.Component {
 
 ProductForm.propTypes = {
     classes: PropTypes.object.isRequired,
+    onAdd: PropTypes.func,
+    onCancel: PropTypes.func,
+    onClose: PropTypes.func,
 }
 
 ProductForm.defaultProps = {
